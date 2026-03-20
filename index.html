@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>The Petrologist | Joshual V J</title>
+    <style>
+        /* --- DESIGN VARIABLES --- */
+        :root {
+            --color-primary: #ff4500; /* High Contrast Lava Orange */
+            --color-secondary: #ff8c00; /* Deep Amber Glow */
+            --color-dark: #0a0a0a; /* Obsidian Black */
+            --color-light: #f0f0f0;
+            --color-background-structure: rgba(10, 10, 10, 0.9); /* Very dark structural overlay */
+        }
+
+        /* --- GLOBAL & BASE STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            color: var(--color-light);
+            background-color: var(--color-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* --- MAGMA TEXTURE BACKGROUND --- */
+        .magma-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+
+            /* Background texture mimicking cracked, glowing obsidian */
+            background:
+                radial-gradient(circle at top left, rgba(255, 69, 0, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at bottom right, rgba(255, 140, 0, 0.15) 0%, transparent 40%),
+                repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.3) 0, rgba(0, 0, 0, 0.3) 1px, transparent 1px, transparent 20px);
+            background-size: 100% 100%, 100% 100%, 50px 50px;
+
+            /* Subtle animation to suggest heat or internal movement */
+            animation: magma-pulse 30s ease-in-out infinite alternate;
+        }
+.magma-background video{
+  width:100%;
+}
+        @keyframes magma-pulse {
+            0% { opacity: 0.9; }
+            100% { opacity: 1; }
+        }
+
+        /* --- CONTENT STRUCTURE --- */
+        main {
+            position: relative;
+            z-index: 10;
+            padding-top: 80px;
+        }
+
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--color-background-structure); /* High opacity dark structural overlay */
+            min-height: calc(100vh - 80px);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        section {
+            padding: 50px 8%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- CORE CHANGE: HIDE ALL SECTIONS BY DEFAULT --- */
+        /* The #hero section will be the exception and must be visible (it is the 'home' part) */
+        #about, #field-experience, #internships, #notes, #gallery, #contact {
+            display: none; /* Hide content sections initially */
+        }
+        /* The navigation should handle showing them */
+
+        /* --- NAVIGATION --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--color-dark);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 8%;
+            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu a {
+            color: var(--color-light);
+            text-decoration: none;
+            margin-left: 35px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: var(--color-primary);
+        }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 500px;
+            text-align: left;
+        }
+
+        #hero h1 {
+            font-size: 4rem;
+            margin-bottom: 0.1em;
+            letter-spacing: 2px;
+            color: var(--color-light);
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.7); /* Red/Orange Glow */
+            line-height: 1.1;
+        }
+
+        #hero h2 {
+             font-size: 1.5rem;
+             color: var(--color-secondary);
+             font-weight: 400;
+             margin-bottom: 5px;
+        }
+
+        #hero p {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+
+        .hero-tagline {
+            font-size: 1.1rem !important;
+            color: var(--color-light);
+            font-style: italic;
+            margin-bottom: 30px !important;
+        }
+
+        /* --- SUBSEQUENT SECTIONS & CARDS --- */
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--color-light);
+            font-weight: 600;
+        }
+
+        h2 span {
+            color: var(--color-primary);
+        }
+
+        .experience-item {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid var(--color-primary); /* Accent line uses the lava color */
+            transition: background 0.3s;
+        }
+
+        .card:hover {
+            background: rgba(255, 69, 0, 0.05); /* Orange hover highlight */
+        }
+
+        .card h3 {
+            color: var(--color-secondary);
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        /* --- CTA BUTTON (Unified Style) --- */
+        .cta-button {
+            background: var(--color-primary);
+            border: none;
+            color: var(--color-dark);
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(255, 69, 0, 0.5);
+            transition: all 0.3s ease-in-out;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: var(--color-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.7);
+        }
+
+        /* Secondary Card Buttons for reports */
+        .card .cta-button {
+            background: none;
+            color: var(--color-secondary);
+            border: 1px solid var(--color-secondary);
+            box-shadow: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            margin-right: 15px; /* Space out multiple links */
+        }
+
+        .card .cta-button:hover {
+            color: var(--color-dark);
+            background: var(--color-secondary);
+            border-color: var(--color-secondary);
+        }
+
+        /* --------------------------
+           NOTES / PDF CARD STYLES
+           -------------------------- */
+        .notes-card, .pdf-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 12px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.25);
+            cursor: pointer;
+            transition: transform .18s ease, box-shadow .18s ease;
+            border-left: 4px solid rgba(255,255,255,0.03);
+        }
+
+        .notes-card:hover, .pdf-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+        }
+
+        .topic-section {
+            display: none;
+            margin-top: 15px;
+            padding-left: 6px;
+            border-left: 3px solid rgba(255,255,255,0.03);
+        }
+
+        .topic-section h3 {
+            margin-bottom: 12px;
+            color: var(--color-secondary);
+        }
+
+        .pdf-card h4 { color: var(--color-light); margin-bottom: 6px; }
+        .pdf-card p { color: #c8d0d8; font-size: .95rem; margin-bottom: 6px; }
+
+        /* --------------------------
+           MODAL / PDF VIEWER STYLES
+           -------------------------- */
+        .pdf-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+
+        .pdf-modal.open { display: flex; }
+
+        .pdf-modal-content {
+            width: 98%;
+            height: 96%;
+            background: #081018;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+        }
+
+        .pdf-modal-header {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            padding: 10px 14px;
+            background: linear-gradient(90deg, rgba(255,69,0,0.06), transparent);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .pdf-modal-title { color: #fff; font-weight:700; font-size:1rem; }
+
+        .pdf-modal-actions { display:flex; gap:10px; align-items:center; }
+
+        .pdf-modal-actions a {
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight:700;
+            font-size:0.95rem;
+            background: var(--color-primary);
+            color: var(--color-dark);
+        }
+
+        .pdf-modal-actions a.ghost {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #fff;
+        }
+
+        .pdf-modal-body { flex:1; background:#000; display:flex; align-items:center; justify-content:center; }
+
+        .pdf-iframe {
+            width:100%;
+            height:100%;
+            border:0;
+        }
+
+        .pdf-modal-close {
+            font-size: 28px;
+            color: #fff;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 720px) {
+            .pdf-modal-content { width: 100%; height: 100%; border-radius: 0; }
+            .pdf-modal-actions a { padding: 8px 10px; font-size: 0.9rem; }
+        }
+
+    </style>
+</head>
+<body>
+    
+
+    <div class="magma-background">
+
+<video autoplay muted loop id="bg-video">
+        <source src="background.mp4" type="video/mp4"></video>
+    </div>
+
+    <header class="header">
+        <div class="logo"><a href="#hero" class="nav-link" data-target="hero">The Petrologist</a></div>
+        <nav class="nav-menu">
+            <a href="#hero" class="nav-link active" data-target="hero">Home</a>
+            <a href="#about" class="nav-link" data-target="about">About</a>
+            <a href="#field-experience" class="nav-link" data-target="field-experience">Field Experience</a>
+            <a href="#internships" class="nav-link" data-target="internships">Internships</a>
+            <a href="#notes" class="nav-link" data-target="notes">Notes</a>
+            <a href="#gallery" class="nav-link" data-target="gallery">Gallery</a>
+            <a href="#contact" class="nav-link" data-target="contact">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content-wrapper">
+
+            <section id="hero">
+                <h2>Joshual V. J.</h2>
+                <h1 style="color: var(--color-light);">The Petrologist <i class="fa-solid fa-volcano"></i></h1>
+                <p class="hero-tagline">Earth & Environmental Science  | IISER Bhopal</p>
+                <p>Exploring the hidden stories of rocks, minerals, and the planet beneath us <i class="fa-solid fa-earth"></i></p>
+                <a href="#about" class="cta-button learn-more-cta">Learn More About Me</a>
+            </section>
+
+            <section id="about">
+                <div class="card" style="border-left: 5px solid var(--color-primary);">
+                    <p>Welcome to my space on the web! I’m an aspiring geologist currently studying Geology under the department of Earth and Environmental Sciences at Indian Institute of Science Education and Research (IISER ) Bhopal. This website is where I share my research notes, course papers, and geological observations.</p>
+                    <p style="margin-top: 15px;">I’ll also add concept notes, resources for geology entrance exams, and glimpses into my projects and fieldwork. My goal is to make Earth science accessible, engaging, and interconnected. </p>
+                </div>
+            </section>
+
+            <section id="field-experience" style="margin: 0; padding: 0;">
+              <h2 style="text-align:center; padding: 20px 0;">Academic <span>Field Experience</span></h2>
+
+              <div class="card" style="margin: 0; padding: 0; border: none; box-shadow: none;">
+                <h3 style="text-align:center;">3rd Year Field Trip – Regional Geology</h3>
+
+                <p style="text-align:center; max-width:800px; margin:0 auto; padding:10px;">
+                  As part of the 3rd year Curriculum at IISER Bhopal, we Conducted a comprehensive geological field trip across <strong>Madhya Pradesh</strong>, exploring diverse lithologies including
+                  <strong>Deccan Traps</strong> and <strong>Vindhyan Sandstones</strong>. The fieldwork provided hands-on experience in using
+                  instruments such as the <em>clinometer</em> and <em>Brunton compass</em>, as well as in <em>stereonet projection</em> for structural data analysis.
+                  Observed and documented features like <strong>spheroidal weathering, quartz veins, dikes at Potla, conglomerates, and river terraces</strong>.
+                </p>
+
+                <p style="text-align:center; max-width:800px; margin:10px auto;">
+                  Studied sedimentary structures including <strong>ripple marks, herringbone structures, load casts, and cross-bedding</strong>.
+                  Conducted <em>geological mapping of the Sanchi Stupa area</em> using <strong>fore-bearing and back-bearing (triangulation)</strong> techniques.
+                </p>
+
+                <p style="text-align:center; margin:20px 0 10px 0;"><strong>Location:</strong> Madhya Pradesh, India</p>
+                <p style="text-align:center;"><strong>Duration:</strong> February 10 – 14, 2025</p>
+
+                <!-- ✅ Full-page PDF embed with proper height -->
+                <div style="width:100%; height:90vh; margin-top: 20px;">
+                  <iframe
+                    src="https://drive.google.com/file/d/1bPCJ1rUGXwsvLkFFrGDtBEP0cvOjWEna/preview"
+                    style="width:100%; height:100%; border:none; display:block;">
+                  </iframe>
+                </div>
+
+              </div>
+            </section>
+
+            <section id="internships">
+              <h2><span>Internships</span></h2>
+
+              <div class="card">
+                <h3>Wadia Institute of Himalayan Geology (WIHG), Dehradun.</h3>
+
+                <p><strong>Project:</strong>
+                  <em>Petrographic and Raman Spectroscopic Study of Fluid Inclusions in Metamorphic Regime</em>
+                </p>
+
+                <p>
+                  This internship focused on the investigation of <strong>fluid inclusions</strong> preserved within
+                  <strong>garnetiferous mica-schist</strong> belonging to a <strong>Barrovian-type regional metamorphic belt</strong>.
+                  Fluid inclusions act as micro-scale geochemical archives, providing valuable insights into the
+                  <em>composition, entrapment conditions, and evolution of metamorphic fluids</em>.
+                </p>
+
+                <p>
+                  Detailed <strong>petrographic analysis</strong> was carried out to examine inclusion morphology, phase assemblages, and
+                  spatial distribution within minerals such as <em>quartz, feldspar, zircon,</em> and <em>muscovite</em>.
+                  The inclusions were documented along <strong>primary growth zones</strong>, <strong>healed microfractures</strong>, and
+                  intragranular trails, and were classified into monophase, biphase, and multiphase types.
+                </p>
+
+                <p>
+                  <strong>Raman microspectroscopy</strong> was employed to determine the molecular composition of the inclusions and confirm the
+                  mineralogical identity of host minerals. This technique helped distinguish <em>CO₂-bearing</em> and <em>aqueous-rich</em> inclusions
+                  and provided evidence of fluid–rock interaction during metamorphism.
+                </p>
+
+                <p>
+                  Integrated petrographic and Raman data indicate that the inclusions were trapped under
+                  <strong>medium-grade metamorphic conditions</strong>, consistent with the <em>biotite–garnet zone</em> of Barrovian metamorphism.
+                  The presence of <strong>two-phase aqueous inclusions</strong>, inclusion trails, and <em>poikiloblastic textures</em> suggests a
+                  dynamic fluid history influenced by progressive metamorphism and deformation-related re-equilibration.
+                </p>
+
+                <p style="margin-top: 20px;">
+                  <strong>Internship under the supervision of:</strong>
+                  Dr. Barun Kumar Mukherjee, Scientist “E”, Petrology and Geochemistry Group,
+                  Wadia Institute of Himalayan Geology, Dehradun.
+                </p>
+
+                <p><strong>Duration:</strong> May 5 – June 28, 2025</p>
+
+                <!-- Full-size PDF viewer -->
+                <div style="width:100%; height:90vh; margin-top: 20px;">
+                  <iframe
+                    src="https://drive.google.com/file/d/1GqEx6yM0Tnh2bwKpVaNDXI1f6DkyZsj6/preview"
+                    style="width:100%; height:100%; border:none; display:block;">
+                  </iframe>
+                </div>
+
+              </div>
+            </section>
+
+            <!-- =======================
+                 NOTES SECTION (Card Grid)
+                 ======================= -->
+            <section id="notes">
+              <h2>Lecture Notes & <span>Articles</span></h2>
+
+              <!-- Subject Card: Mineralogy -->
+              <div class="notes-card" onclick="openTopic('mineralogy')">
+                <h3>Mineralogy</h3>
+                <p>Optical Mineralogy, Crystallography, Mineral Chemistry &amp; more</p>
+              </div>
+
+              <!-- Subtopic: Optical Mineralogy (Hidden by default) -->
+              <div id="mineralogy" class="topic-section" aria-hidden="true">
+                <h3>Optical Mineralogy</h3>
+
+                <div class="pdf-card" onclick="openPDFViewer('1dMq4HttbuhnaDG4W1nXPs_--cEhouToA', 'Introduction to Optical Mineralogy — Part 1')">
+                  <h4>Introduction to Optical Mineralogy &amp; Minerals in Thin Sections — Part 1</h4>
+                  <p>Basics of optical properties &amp; mineral identification</p>
+                </div>
+
+                <div class="pdf-card" onclick="openPDFViewer('10irrT5LevVMtBVbC5gF0owZ8G4GkQqtf', 'Introduction to Optical Mineralogy — Part 2')">
+                  <h4>Introduction to Optical Mineralogy &amp; Minerals in Thin Sections — Part 2</h4>
+                  <p>Minerals&amp; Its Identification</p>
+                </div>
+              </div>
+            </section>
+
+            <section id="gallery">
+              <h2>Fieldwork <span>Gallery</span></h2>
+              <p>Updating soon...</p>
+              <a href="#" class="cta-button" style="margin-top: 15px;">View Gallery</a>
+            </section>
+
+            <section id="contact">
+              <h2>Get in <span>Touch</span></h2>
+              <p>Reach out to collaborate on a project or discuss the latest findings in Geology.</p>
+              <a href="mailto:heyfolks22@gmail.com"
+                 class="cta-button"
+                 style="margin-top: 15px;">
+                 Email Me
+              </a>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- =======================
+         FULL-SCREEN PDF MODAL
+         ======================= -->
+    <div id="pdfModal" class="pdf-modal" role="dialog" aria-hidden="true" aria-label="PDF viewer">
+      <div class="pdf-modal-content" role="document">
+        <div class="pdf-modal-header">
+          <div class="pdf-modal-title" id="pdfTitle">PDF Viewer</div>
+          <div class="pdf-modal-actions">
+            <a id="downloadBtn" class="ghost" href="#" target="_blank" rel="noopener">⬇ Download</a>
+            <a id="newTabBtn" class="" href="#" target="_blank" rel="noopener">Open in new tab</a>
+            <div class="pdf-modal-close" onclick="closePDFViewer()" title="Close viewer">✕</div>
+          </div>
+        </div>
+        <div class="pdf-modal-body">
+          <iframe id="pdfFrame" class="pdf-iframe" src="" loading="lazy" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        // ---------- Navigation + Section show/hide ----------
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-menu a, .logo a');
+            const sections = document.querySelectorAll('section');
+            const learnMoreCta = document.querySelector('.learn-more-cta');
+
+            // Function to hide all non-hero sections
+            const hideAllSections = () => {
+                sections.forEach(section => {
+                    if (section.id !== 'hero') {
+                        section.style.display = 'none';
+                    }
+                });
+            };
+
+            // Function to show a specific section
+            const showSection = (targetId) => {
+                hideAllSections();
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                    // Scroll to the top of the content wrapper to feel like a new page
+                    document.querySelector('.content-wrapper').scrollIntoView({ behavior: 'smooth' });
+                }
+            };
+
+            // Function to handle the navigation clicks
+            const handleNavClick = (event) => {
+                event.preventDefault(); // Stop the default anchor link behavior
+
+                const targetId = event.currentTarget.getAttribute('data-target');
+
+                // Remove 'active' class from all links
+                navLinks.forEach(link => link.classList.remove('active'));
+
+                // Add 'active' class to the clicked link
+                event.currentTarget.classList.add('active');
+
+                if (targetId === 'hero') {
+                    // Clicking HOME/Logo: Hide all other sections and scroll to top of hero
+                    hideAllSections();
+                    document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    // Clicking any other link: Show that specific section
+                    showSection(targetId);
+                }
+            };
+
+            // 1. Initial setup: Hide all non-hero sections
+            hideAllSections();
+
+            // 2. Attach click listeners to all navigation links (including logo)
+            navLinks.forEach(link => {
+                // We use a custom data-target attribute in the HTML for reliable targeting
+                link.addEventListener('click', handleNavClick);
+            });
+
+            // 3. Special handler for the 'Learn More About Me' CTA
+            learnMoreCta.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default scroll
+
+                // Clear active state on all nav links
+                navLinks.forEach(link => link.classList.remove('active'));
+
+                // Set 'About' link as active
+                document.querySelector('[data-target="about"]').classList.add('active');
+
+                // Show ONLY the 'about' section
+                showSection('about');
+            });
+
+            // OPTIONAL: If user navigates back via hash anchor (direct linking), show that section
+            const hash = location.hash.replace('#','');
+            if (hash && document.getElementById(hash)) {
+              // clear active classes
+              navLinks.forEach(link => link.classList.remove('active'));
+              const nav = Array.from(navLinks).find(n => n.dataset && n.dataset.target === hash);
+              if (nav) nav.classList.add('active');
+              showSection(hash);
+            }
+        });
+
+        // ---------- Notes topic toggle ----------
+        function openTopic(topicId) {
+          const section = document.getElementById(topicId);
+          if (!section) return;
+          const visible = section.style.display === 'block';
+          // hide any other open topic sections inside notes:
+          const topics = document.querySelectorAll('#notes .topic-section');
+          topics.forEach(t => { if (t !== section) t.style.display = 'none'; });
+          section.style.display = visible ? 'none' : 'block';
+        }
+
+        // ---------- PDF Modal Viewer ----------
+        // Using Google Drive preview links (provided IDs)
+        function openPDFViewer(fileId, title = 'Lecture PDF') {
+          const modal = document.getElementById('pdfModal');
+          const frame = document.getElementById('pdfFrame');
+          const download = document.getElementById('downloadBtn');
+          const newtab = document.getElementById('newTabBtn');
+          const pdfTitle = document.getElementById('pdfTitle');
+
+          // Build URLs
+          const preview = `https://drive.google.com/file/d/${fileId}/preview`;
+          const view = `https://drive.google.com/file/d/${fileId}/view`;
+          const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+
+          // Set iframe + buttons
+          frame.src = preview;
+          download.href = downloadUrl;
+          newtab.href = view;
+          pdfTitle.textContent = title;
+
+          // Show modal
+          modal.classList.add('open');
+          modal.setAttribute('aria-hidden','false');
+          // prevent background scroll
+          document.documentElement.style.overflow = 'hidden';
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closePDFViewer() {
+          const modal = document.getElementById('pdfModal');
+          const frame = document.getElementById('pdfFrame');
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden','true');
+          // Clear iframe source to stop playback and free memory
+          frame.src = '';
+          document.documentElement.style.overflow = '';
+          document.body.style.overflow = '';
+        }
+
+        // Close modal when clicking outside content
+        window.addEventListener('click', function(e){
+          const modal = document.getElementById('pdfModal');
+          if (!modal) return;
+          if (modal.classList.contains('open') && e.target === modal) {
+            closePDFViewer();
+          }
+        });
+
+        // Keyboard support: Esc to close
+        window.addEventListener('keydown', function(e){
+          const modal = document.getElementById('pdfModal');
+          if (!modal) return;
+          if (e.key === 'Escape' && modal.classList.contains('open')) {
+            closePDFViewer();
+          }
+        });
+    </script>
+</body>
+</html>
